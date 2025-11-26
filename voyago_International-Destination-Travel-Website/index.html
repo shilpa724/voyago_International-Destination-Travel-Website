@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adventour - Premium Travel Experiences</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+
+        body {
+            background: #ffffff;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, rgba(44, 62, 80, 0.9), rgba(52, 152, 219, 0.8)), 
+                        url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1421&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 0 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        /* Destinations Section */
+        .destinations {
+            padding: 80px 2rem;
+            background: var(--light);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .countries-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .country-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .country-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .country-flag {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .country-flag img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .country-card:hover .country-flag img {
+            transform: scale(1.1);
+        }
+
+        .country-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .country-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .country-info p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .btn-explore {
+            background: var(--secondary);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .btn-explore:hover {
+            background: #2980b9;
+        }
+
+        /* Packages Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: white;
+            margin: 2% auto;
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 1000px;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .close {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .city-packages {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .city-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .city-card h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .package-item {
+            background: white;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .package-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .package-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .package-features {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .package-features span {
+            background: var(--light);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            color: var(--dark);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 60px 2rem 20px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--accent);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            color: #bdc3c7;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 200px;
+                justify-content: center;
+            }
+
+            .modal-content {
+                margin: 5%;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo">Adven<span>tour</span></a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#destinations">Destinations</a></li>
+                <li><a href="packages.html">Packages</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Discover The World With Us</h1>
+            <p>Experience unforgettable journeys to the most breathtaking destinations around the globe</p>
+            <div class="cta-buttons">
+                <a href="#destinations" class="btn btn-primary">
+                    <i class="fas fa-map-marked-alt"></i> Explore Destinations
+                </a>
+                <a href="contact.html" class="btn btn-secondary">
+                    <i class="fas fa-phone"></i> Contact Us
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destinations Section -->
+    <section class="destinations" id="destinations">
+        <div class="section-title">
+            <h2>Popular Destinations</h2>
+            <p>Explore our handpicked countries with amazing travel experiences</p>
+        </div>
+        <div class="countries-grid">
+            <!-- India -->
+            <div class="country-card" onclick="openCountryModal('india')">
+                <div class="country-flag">
+                    <img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=871&q=80" alt="India">
+                </div>
+                <div class="country-info">
+                    <h3>India</h3>
+                    <p>Land of diversity and rich culture</p>
+                    <button class="btn-explore">Explore Packages</button>
+                </div>
+            </div>
+
+            <!-- UK -->
+            <div class="country-card" onclick="openCountryModal('uk')">
+                <div class="country-flag">
+                    <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80" alt="UK">
+                </div>
+                <div class="country-info">
+                    <h3>United Kingdom</h3>
+                    <p>Historic landmarks and royal heritage</p>
+                    <button class="btn-explore">Explore Packages</button>
+                </div>
+            </div>
+
+            <!-- Indonesia -->
+<div class="country-card" onclick="openCountryModal('indonesia')">
+    <div class="country-flag">
+        <img src="https://images.unsplash.com/photo-1513415564515-763d91423bdd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80" alt="Indonesia">
+    </div>
+    <div class="country-info">
+        <h3>Indonesia</h3>
+        <p>Tropical paradise with stunning beaches</p>
+        <button class="btn-explore">Explore Packages</button>
+    </div>
+</div>
+
+            <!-- Germany -->
+            <div class="country-card" onclick="openCountryModal('germany')">
+                <div class="country-flag">
+                    <img src="https://images.unsplash.com/photo-1467269204594-9661b134dd2b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80" alt="Germany">
+                </div>
+                <div class="country-info">
+                    <h3>Germany</h3>
+                    <p>Castles, culture, and beautiful landscapes</p>
+                    <button class="btn-explore">Explore Packages</button>
+                </div>
+            </div>
+
+            <!-- Australia -->
+            <div class="country-card" onclick="openCountryModal('australia')">
+                <div class="country-flag">
+                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80" alt="Australia">
+                </div>
+                <div class="country-info">
+                    <h3>Australia</h3>
+                    <p>Wildlife, beaches, and outdoor adventures</p>
+                    <button class="btn-explore">Explore Packages</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Country Packages Modal -->
+    <div id="countryModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeCountryModal()">&times;</span>
+            <div id="modalContent">
+                <!-- Content will be loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Adventour</h3>
+                <p>Creating unforgettable travel experiences since 2010. Your journey begins with us.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#destinations">Destinations</a></li>
+                    <li><a href="packages.html">Packages</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contact Info</h3>
+                <ul class="footer-links">
+                    <li><i class="fas fa-phone"></i> +91 98765 43210</li>
+                    <li><i class="fas fa-envelope"></i> info@adventour.com</li>
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Travel Street, Mumbai, India</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Adventour. All rights reserved.</p>
+        </div>
+    </footer>
+    <script>
+        // Country packages data
+        const countryPackages = {
+            india: {
+                name: "India",
+                cities: {
+                    "Goa": [
+                        { name: "Beach Paradise Package", price: "₹27,000", duration: "5D/4N", features: ["5-Star Resort", "Breakfast", "Water Sports"] },
+                        { name: "Luxury Goa Escape", price: "₹45,000", duration: "7D/6N", features: ["Private Villa", "All Meals", "Spa"] }
+                    ],
+                    "Kashmir": [
+                        { name: "Heaven on Earth", price: "₹35,000", duration: "6D/5N", features: ["Houseboat Stay", "Sightseeing", "Shikara Ride"] },
+                        { name: "Premium Kashmir", price: "₹58,500", duration: "8D/7N", features: ["Luxury Resort", "All Meals", "Adventure Activities"] }
+                    ],
+                    "Kerala": [
+                        { name: "Backwaters Retreat", price: "₹32,000", duration: "5D/4N", features: ["Houseboat", "Ayurveda", "Cultural Show"] },
+                        { name: "Kerala Wellness", price: "₹47,500", duration: "7D/6N", features: ["Spa Resort", "Yoga", "Organic Meals"] }
+                    ]
+                }
+            },
+            uk: {
+                name: "United Kingdom",
+                cities: {
+                    "London": [
+                        { name: "Royal London Tour", price: "₹89,000", duration: "6D/5N", features: ["City Hotel", "Breakfast", "Hop-on Hop-off"] },
+                        { name: "London Premium", price: "₹1,25,000", duration: "8D/7N", features: ["5-Star Hotel", "All Meals", "Theater Show"] }
+                    ],
+                    "Edinburgh": [
+                        { name: "Scottish Highlands", price: "₹75,000", duration: "5D/4N", features: ["Heritage Hotel", "Breakfast", "Castle Tour"] },
+                        { name: "Edinburgh Festival", price: "₹95,000", duration: "7D/6N", features: ["City Center Hotel", "All Meals", "Event Tickets"] }
+                    ]
+                }
+            },
+            indonesia: {
+                name: "Indonesia",
+                cities: {
+                    "Bali": [
+                        { name: "Bali Beach Escape", price: "₹47,500", duration: "6D/5N", features: ["Beach Resort", "Breakfast", "Temple Tour"] },
+                        { name: "Luxury Bali", price: "₹75,000", duration: "8D/7N", features: ["Private Villa", "All Meals", "Spa Treatments"] }
+                    ]
+                }
+            },
+            germany: {
+                name: "Germany",
+                cities: {
+                    "Berlin": [
+                        { name: "City Break Berlin", price: "₹65,000", duration: "5D/4N", features: ["City Hotel", "Breakfast", "Museum Pass"] },
+                        { name: "German Castles Tour", price: "₹1,10,000", duration: "10D/9N", features: ["Multiple Cities", "All Meals", "Guide"] }
+                    ]
+                }
+            },
+            australia: {
+                name: "Australia",
+                cities: {
+                    "Sydney": [
+                        { name: "Sydney Highlights", price: "₹99,000", duration: "7D/6N", features: ["Harbor View Hotel", "Breakfast", "Opera House Tour"] },
+                        { name: "East Coast Adventure", price: "₹1,75,000", duration: "14D/13N", features: ["Multiple Cities", "All Meals", "Activities"] }
+                    ]
+                }
+            }
+        };
+
+        function openCountryModal(country) {
+            const modal = document.getElementById('countryModal');
+            const content = document.getElementById('modalContent');
+            const countryData = countryPackages[country];
+            
+            let html = `<h2 style="color: var(--primary); margin-bottom: 2rem;">${countryData.name} - Travel Packages</h2>`;
+            html += `<div class="city-packages">`;
+            
+            for (const [city, packages] of Object.entries(countryData.cities)) {
+                html += `<div class="city-card">`;
+                html += `<h4>${city}</h4>`;
+                
+                packages.forEach(pkg => {
+                    html += `<div class="package-item">`;
+                    html += `<div class="package-header">`;
+                    html += `<h5>${pkg.name}</h5>`;
+                    html += `<div class="package-price">${pkg.price}</div>`;
+                    html += `</div>`;
+                    html += `<p><strong>Duration:</strong> ${pkg.duration}</p>`;
+                    html += `<div class="package-features">`;
+                    pkg.features.forEach(feature => {
+                        html += `<span>${feature}</span>`;
+                    });
+                    html += `</div>`;
+                    html += `<button class="btn-book" onclick="bookPackage('${pkg.name}', '${pkg.price}')">Book Now</button>`;
+                    html += `</div>`;
+                });
+                
+                html += `</div>`;
+            }
+            
+            html += `</div>`;
+            content.innerHTML = html;
+            modal.style.display = 'block';
+        }
+
+        function closeCountryModal() {
+            document.getElementById('countryModal').style.display = 'none';
+        }
+
+        function bookPackage(packageName, price) {
+            alert(`Booking ${packageName} for ${price}\n\nRedirecting to booking page...`);
+            window.location.href = 'packages.html';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('countryModal');
+            if (event.target === modal) {
+                closeCountryModal();
+            }
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
